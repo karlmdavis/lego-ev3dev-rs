@@ -1,0 +1,11 @@
+[package]
+name = "lego-ev3dev-rs-drive"
+version = "0.1.0"
+authors = ["Karl M. Davis <karl@justdavis.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ev3dev-lang-rust = "0.10"
+rand = "0.8"
