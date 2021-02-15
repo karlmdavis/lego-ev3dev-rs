@@ -2,4 +2,4 @@
 /target
 
 # Ignore vendored dependenices.
-vendor/
+/vendor
