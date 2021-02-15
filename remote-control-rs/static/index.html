@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EV3 Remote Control</title>
+  <style>
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+    }
+    .controls a {
+      text-align: center;
+      font-size: 6em;
+    }
+    .controls a:link {
+      text-decoration: none;
+    }
+    .turnLeft {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .moveForward {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .moveBackward {
+      grid-column: 2;
+      grid-row: 3;
+    }
+    .turnRight {
+      grid-column: 3;
+      grid-row: 2;
+    }
+  </style>
+</head>
+<body>
+  <h1>EV3 Remote Control</h1>
+  <div class="controls">
+    <a href="/turn/left" class="turnLeft">&#9664;</a>
+    <a href="/move/forward" class="moveForward">&#11014;</a>
+    <a href="/move/backward" class="moveBackward">&#11015;</a>
+    <a href="/turn/right" class="turnRight">&#9654;</a>
+  </div>
+</body>
+</html>

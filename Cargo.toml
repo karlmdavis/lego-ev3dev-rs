@@ -1,2 +1,2 @@
 [workspace]
-members = ["auto-drive-rs"]
+members = ["auto-drive-rs", "remote-control-rs"]
