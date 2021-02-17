@@ -1,9 +1,27 @@
+//! A simple remote controlled driving routine for the
+//!   [ev3dev platform](https://www.ev3dev.org/).
+//!
+//! The "remote control" interface is a webserver hosted by the EV3 brick itself,
+//!   which is implemented here, and will be available at
+//!   <http://ev3dev.local:8080/>.
+//!
+//! The backend web server is implemented using the
+//!   [Actix](https://actix.rs/) framework,
+//!   which was selected mostly because I'm already familiar with it
+//!   (and because it's fast).
+//! The frontend is just the webpage provided by the `./static/index.html` file.
+//!
+//! Everything here is kept to a single file as much as possible,
+//!   for simplicity's sake.
+
 use actix_web::{get, web, App, HttpResponse, HttpServer};
 use anyhow::{Context, Result};
 use ev3dev_lang_rust::motors::{LargeMotor, MotorPort};
 use std::time::Duration;
 use tokio::sync::Mutex;
 
+/// The main method for the application, which will be run when the application is launched.
+/// It mostly just configures and runs the backend Actix webserver.
 #[actix_web::main]
 async fn main() -> Result<()> {
     // Ev3 devices
@@ -31,6 +49,11 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
+/// Provides the application's frontend, via the `./static/index.html`,
+///   which will be embedded in the compiled binary for this application.
+///
+/// Accessible by browsing to <http://ev3dev.local:8080/> from
+///   another device on the same network as the EV3.
 #[get("/")]
 async fn index() -> HttpResponse {
     HttpResponse::Ok()
@@ -38,6 +61,11 @@ async fn index() -> HttpResponse {
         .body(include_str!("../static/index.html"))
 }
 
+/// This API endpoint is called when the user clicks the "go forward" button in the web application.
+/// Drives the robot straight ahead for a brief bit.
+///
+/// Parameters:
+/// * `ev3_devices`: the [Ev3Devices] instance managed/shared by the application
 #[get("/move/forward")]
 async fn move_forward(
     ev3_devices: web::Data<Mutex<Ev3Devices>>,
@@ -59,6 +87,11 @@ async fn move_forward(
         .into_body())
 }
 
+/// This API endpoint is called when the user clicks the "go backward" button in the web application.
+/// Drives the robot straight back for a brief bit.
+///
+/// Parameters:
+/// * `ev3_devices`: the [Ev3Devices] instance managed/shared by the application
 #[get("/move/backward")]
 async fn move_backward(
     ev3_devices: web::Data<Mutex<Ev3Devices>>,
@@ -80,6 +113,11 @@ async fn move_backward(
         .into_body())
 }
 
+/// This API endpoint is called when the user clicks the "turn left" button in the web application.
+/// Turns the robot backwards and to the left a bit.
+///
+/// Parameters:
+/// * `ev3_devices`: the [Ev3Devices] instance managed/shared by the application
 #[get("/turn/left")]
 async fn turn_left(ev3_devices: web::Data<Mutex<Ev3Devices>>) -> actix_web::Result<HttpResponse> {
     let motor_set = &ev3_devices.lock().await.motor_set;
@@ -106,6 +144,11 @@ async fn turn_left(ev3_devices: web::Data<Mutex<Ev3Devices>>) -> actix_web::Resu
         .into_body())
 }
 
+/// This API endpoint is called when the user clicks the "turn right" button in the web application.
+/// Turns the robot backwards and to the right a bit.
+///
+/// Parameters:
+/// * `ev3_devices`: the [Ev3Devices] instance managed/shared by the application
 #[get("/turn/right")]
 async fn turn_right(ev3_devices: web::Data<Mutex<Ev3Devices>>) -> actix_web::Result<HttpResponse> {
     let motor_set = &ev3_devices.lock().await.motor_set;
