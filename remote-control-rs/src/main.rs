@@ -42,22 +42,17 @@ async fn index() -> HttpResponse {
 async fn move_forward(
     ev3_devices: web::Data<Mutex<Ev3Devices>>,
 ) -> actix_web::Result<HttpResponse> {
-    println!("forward: enter");
     let motor_set = &ev3_devices.lock().await.motor_set;
-    println!("forward: locked");
 
     // Drive forward a bit.
     motor_set.set_duty_cycle_sp(100)?;
     motor_set.run_direct()?;
     motor_set.wait_until(LargeMotor::STATE_RUNNING, None);
-    println!("forward: running");
     tokio::time::delay_for(Duration::from_millis(1000)).await;
     motor_set.set_stop_action("coast")?;
     motor_set.stop()?;
-    println!("forward: stopping");
 
     // Send the client back to the home page.
-    println!("forward: exiting");
     Ok(HttpResponse::Found()
         .header(actix_web::http::header::LOCATION, "/")
         .finish()
