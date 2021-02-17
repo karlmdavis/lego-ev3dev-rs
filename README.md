@@ -7,5 +7,5 @@ A collection of Rust applications for the
     A simple "auto pilot" driving routine.
 * [./remote-control-rs/](remote-control-rs):
     A simple remote controlled driving routine.
-* [./remote-control-fancy-rs/](remote-control-rs):
+* [./remote-control-fancy-rs/](remote-control-fancy-rs):
     A somewhat fancy remote controlled driving routine.

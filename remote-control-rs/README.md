@@ -17,16 +17,13 @@ See it for more details.
 
 ## The Lego Build
 
-This program was built for any EV3 driving build that includes:
+Specifically, this was developed for the build from the Lego Education
+  [Straight Move](https://education.lego.com/en-us/lessons/ev3-tutorials/straight-move)
+  tutorial.
+Any similar build should work fine, though.
 
-* Front-wheel drive, where the two front wheels
-    are independently powered by medium motors,
-    and the back "wheel" is just a marble thingy.
-* A wifi adapter that is connected to a local network.
-  Specifically, the
-    [Penguin Wireless N USB Adapter (TPE-N150USB)](https://www.thinkpenguin.com/gnu-linux/penguin-wireless-n-usb-adapter-gnu-linux-tpe-n150usb)
-    worked flawlessly for me,
-    though others recommended for the ev3dev platform did not.
-
-Specifically, this is all based off the basic EV3 Mindstorms
-  educational driving platform from the tutorials.
+A wifi adapter that is connected to a local network will also be required, though.
+Specifically, the
+  [Penguin Wireless N USB Adapter (TPE-N150USB)](https://www.thinkpenguin.com/gnu-linux/penguin-wireless-n-usb-adapter-gnu-linux-tpe-n150usb)
+  worked flawlessly for me,
+  though others recommended for the ev3dev platform did not.
