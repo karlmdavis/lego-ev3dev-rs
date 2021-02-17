@@ -1,0 +1,24 @@
+[package]
+name = "remote-control-fancy-rs"
+version = "0.1.0"
+authors = ["Karl M. Davis <karl@justdavis.com>"]
+edition = "2018"
+
+
+[dependencies]
+
+# Actix is used as the HTTP framework.
+actix-web = "3"
+
+# This is the version of Tokio used by Actix.
+tokio = { version = "0.2.25", features = [ "sync" ] }
+
+# Serde is used to work with JSON.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Provides support for interacting with the ev3dev Lego Mindstorms EV3 platform.
+ev3dev-lang-rust = "0.10"
+
+# Provides simpler app error handling.
+anyhow = "1"

@@ -1280,6 +1280,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5eb417147ba9860a96cfe72a0b93bf88fee1744b5636ec99ab20c1aa9376581"
 
 [[package]]
+name = "remote-control-fancy-rs"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "anyhow",
+ "ev3dev-lang-rust",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "remote-control-rs"
 version = "0.1.0"
 dependencies = [

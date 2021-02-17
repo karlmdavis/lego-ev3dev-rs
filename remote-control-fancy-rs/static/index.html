@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EV3 Remote Control - Fancy</title>
+  <style>
+    .controls {
+      display: grid;
+      width: 95vw;
+      height: 80vh;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+      text-align: center;
+      font-size: 2em;
+    }
+    .controls input[type=range] {
+      cursor: pointer;
+      background-color: darkgrey;
+    }
+    .speedDisplay {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: center;
+    }
+    input#speed {
+      grid-column: 1;
+      grid-row: 2 / span 9;
+      writing-mode: bt-lr;
+      -webkit-appearance: slider-vertical;
+    }
+    .directionDisplay {
+      grid-column: 2 / span 5;
+      grid-row: 9;
+      align-self: flex-end;
+    }
+    input#direction {
+      grid-column: 2 / span 5;
+      grid-row: 10;
+      width: 100%;
+    }
+    .controls button {
+      margin-left: 5px;
+      margin-right: 5px;
+      font-size: 1.5em;
+      align-self: center;
+    }
+    .controls button.active {
+      color: blue;
+      border-color: blue;
+    }
+    #modeStop {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    #modeForward {
+      grid-column: 4;
+      grid-row: 1;
+    }
+    #modeBackward {
+      grid-column: 5;
+      grid-row: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>EV3 Remote Control</h1>
+  <div class="controls">
+    <div class="speedDisplay">
+      <label for="price">Speed:</label>
+      <output class="speed-output" for="speed"></output>
+    </div>
+    <input type="range" name="speed" id="speed" min="0" max="100" step="5" value="0" orient="vertical">
+    <div class="directionDisplay">
+      <label for="price">Direction:</label>
+      <output class="direction-output" for="direction"></output>
+    </div>
+    <input type="range" name="direction" id="direction" min="-100" max="100" step="10" value="0">
+    <button type="button" id="modeStop" data-mode="Stop">&#9632;</button>
+    <button type="button" id="modeForward" data-mode="Forward">&#9650;</button>
+    <button type="button" id="modeBackward" data-mode="Backward">&#9660;</button>
+  </div>
+  <script>
+    const speed = document.querySelector('#speed');
+    const speedOutput = document.querySelector('.speed-output');
+    speedOutput.textContent = speed.value;
+    speed.addEventListener('input', function(event) {
+      const speedData = { speed: Number(event.target.value) };
+      fetch('/speed', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(speedData),
+      })
+      .then(response => {
+        console.log('Speed posted.');
+        speedOutput.textContent = speedData.speed;
+      })
+      .catch(error => {
+        console.error('Problem posting speed: ', error);
+      });
+    });
+
+    const direction = document.querySelector('#direction');
+    const directionOutput = document.querySelector('.direction-output');
+    directionOutput.textContent = direction.value;
+    direction.addEventListener('input', function(event) {
+      const directionData = { direction: Number(event.target.value) };
+      fetch('/direction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(directionData),
+      })
+      .then(response => {
+        console.log('Direction posted.');
+        directionOutput.textContent = directionData.direction;
+      })
+      .catch(error => {
+        console.error('Problem posting direction: ', error);
+      });
+    });
+
+    const modeStop = document.querySelector('#modeStop');
+    const modeForward = document.querySelector('#modeForward');
+    const modeBackward = document.querySelector('#modeBackward');
+    const modeButtons = [modeStop, modeForward, modeBackward];
+    
+    modeStop.classList.add("active");
+    
+    function modeHandler(event) {
+      const modeData = { mode: event.target.dataset.mode };
+      fetch('/mode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(modeData),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error submitting mode: ${response.status}: ${response.statusText}: ${response.text().await}`);
+        }
+
+        // Update UI.
+        let selectedModeId = event.target.id;
+        modeButtons.forEach(function(item, index, array) {
+        if (item.id === selectedModeId) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+      })
+      .catch(error => {
+        console.error('Problem submitting mode: ', error);
+      });
+    }
+
+    modeStop.onclick = modeHandler;
+    modeForward.onclick = modeHandler;
+    modeBackward.onclick = modeHandler;
+  </script>
+</body>
+</html>
